@@ -96,15 +96,10 @@ method for(range : Range)
 // iterations. Action should take a numeric value as a parameter. When condition
 // fails, execute endAction
 method for(range : Range) pausing (pauseTime) do (action : Function<Number, Done>)
-    finally (endblockAction : Action) -> Done {
+    finally (endAction : Action) -> Done {
   def it = range.iterator
-  if (it.hasMore) then {
-    while {it.hasMore} pausing (pauseTime) do {action.apply(it.next)}
-      finally(endAction)
-  } else {
-    endAction.apply
+  while {it.hasMore} pausing (pauseTime) do {action.apply(it.next)}
+    finally(endAction)
   }
-}
-
 def asString : String = "timer"
 
